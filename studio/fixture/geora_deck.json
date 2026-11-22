@@ -1,0 +1,515 @@
+{
+ "title": "GeoRA – Geometry-Aware Low-Rank Adaptation for RLVR",
+ "paper": "Zhang, Shi, Li, Xu, Gao, Hao, He. GeoRA: Geometry-Aware Low-Rank Adaptation for RLVR. ACL 2026 (Long), pp. 24207–24221.",
+ "talk_minutes": 20,
+ "_note": "Content spec written by the autopilot from the paper (stand-in for the team's content agent). Numbers copied from Tables 1, 3, 4.",
+ "slides": [
+  {
+   "id": "title",
+   "type": "title",
+   "section": "",
+   "variant": "title_left",
+   "content": {
+    "title": "GeoRA: low-rank adapters that respect RL geometry",
+    "subtitle": "Geometry-Aware Low-Rank Adaptation for RLVR · ACL 2026",
+    "authors": "Zhang et al. (Meituan, PKU) · presented by <team>"
+   },
+   "notes": "Introduce the question: how to fine-tune reasoning models cheaply with RL without breaking them."
+  },
+  {
+   "id": "s1",
+   "type": "section",
+   "section": "Motivation",
+   "variant": "section_number",
+   "content": {
+    "number": "01",
+    "title": "Why RL fine-tuning is different"
+   }
+  },
+  {
+   "id": "claim",
+   "type": "statement",
+   "section": "Motivation",
+   "variant": "statement_sentence",
+   "content": {
+    "text": "RLVR mostly ==re-weights what the model already knows== – it barely moves the principal weight directions.",
+    "source": "Paper §2.1, summarising Zhu et al. 2025; Wu et al. 2025"
+   },
+   "notes": "SFT injects knowledge via principal directions; RLVR updates are small, off-principal and concentrated in small sub-networks."
+  },
+  {
+   "id": "sft_vs_rl",
+   "type": "comparison",
+   "section": "Motivation",
+   "variant": "comparison_two",
+   "content": {
+    "title": "Two fine-tuning regimes, two update geometries",
+    "columns": [
+     {
+      "head": "SFT",
+      "items": [
+       "Injects new knowledge",
+       "Edits principal singular directions",
+       "Dense, large updates"
+      ]
+     },
+     {
+      "head": "RLVR",
+      "role": "ours",
+      "build": 1,
+      "items": [
+       "Amplifies latent reasoning",
+       "Low-magnitude, off-principal updates",
+       "Sensitive to stability (KL, collapse)"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "dilemma",
+   "type": "comparison",
+   "section": "Motivation",
+   "variant": "comparison_three",
+   "content": {
+    "title": "Existing PEFT methods miss one of two goals",
+    "columns": [
+     {
+      "head": "LoRA",
+      "build": 1,
+      "items": [
+       "Random / zero init",
+       "Geometry-agnostic",
+       "Dense and fast"
+      ]
+     },
+     {
+      "head": "PiSSA",
+      "build": 2,
+      "items": [
+       "Init from principal components",
+       "Fights RLVR's preferred subspace",
+       "Dense and fast"
+      ]
+     },
+     {
+      "head": "Sparse FT",
+      "build": 3,
+      "items": [
+       "Matches RL update pattern",
+       "Unstructured sparsity",
+       "Slow on GPUs"
+      ]
+     }
+    ]
+   },
+   "notes": "Goal: RL-aligned like sparse FT, dense like LoRA."
+  },
+  {
+   "id": "s2",
+   "type": "section",
+   "section": "Method",
+   "variant": "section_number",
+   "content": {
+    "number": "02",
+    "title": "GeoRA in one picture"
+   }
+  },
+  {
+   "id": "fig1",
+   "type": "figure",
+   "section": "Method",
+   "variant": "figure_full",
+   "content": {
+    "title": "Same adapter shape, different starting point",
+    "image": "fixture/geora/fig1.png",
+    "image_name": "!!fig1",
+    "meaning": "Fig. 1: how LoRA, PiSSA, MiLoRA and GeoRA initialise the adapter, and GeoRA's forward pass",
+    "caption": "Figure 1 from the paper (Zhang et al., 2026)"
+   },
+   "zoom": [
+    {
+     "region": [
+      0.505,
+      0.0,
+      0.7,
+      0.95
+     ],
+     "label": "INITIALISATION",
+     "text": "SVD of the ==geometry-constrained== matrix $W_{Geo}$, not of $W$. Its top-$r$ components initialise $A_{Geo}$ and $B_{Geo}$."
+    },
+    {
+     "region": [
+      0.7,
+      0.02,
+      1.0,
+      0.96
+     ],
+     "label": "FINE-TUNING",
+     "text": "A frozen ==residual matrix== keeps the output unchanged at step 0 and anchors the pre-trained structure."
+    }
+   ],
+   "notes": "Walk through the four columns, then zoom into GeoRA and into the forward pass."
+  },
+  {
+   "id": "flow",
+   "type": "diagram",
+   "section": "Method",
+   "variant": "diagram_flow",
+   "content": {
+    "title": "Four steps from W to a trainable adapter",
+    "steps": [
+     "Pre-trained W",
+     {
+      "text": "Mask: spectral $\\cup$ Euclidean",
+      "role": "ours"
+     },
+     "SVD → top-$r$",
+     "Frozen $W_{res}$ + trainable $A$, $B$"
+    ],
+    "caption": "Only the low-rank adapter is trained; everything else is fixed after one SVD.",
+    "builds": {
+     "1": 1,
+     "2": 2,
+     "3": 3
+    }
+   }
+  },
+  {
+   "id": "mask",
+   "type": "figure_text",
+   "section": "Method",
+   "variant": "figure_top_text_bottom",
+   "content": {
+    "title": "Where may RL change the weights?",
+    "image": "fixture/geora/fig2.png",
+    "meaning": "Fig. 2: building M_Geo from the spectral and Euclidean masks",
+    "body": [
+     "Spectral prior: low entries of the rank-$r$ approximation",
+     "Euclidean prior: near-zero weights",
+     "Union keeps $\\rho = 20\\%$ of each"
+    ]
+   }
+  },
+  {
+   "id": "eq_mask",
+   "type": "formula",
+   "section": "Method",
+   "variant": "formula_center",
+   "content": {
+    "title": "The geometry-constrained matrix",
+    "latex": "W_{\\mathrm{Geo}} = W \\odot \\left(M_{\\mathrm{Spec}} \\cup M_{\\mathrm{Euc}}\\right)",
+    "terms": [
+     [
+      "M_{\\mathrm{Spec}}",
+      "bottom-$\\rho$ entries of $|\\hat{W}_r|$ (stable, low curvature)"
+     ],
+     [
+      "M_{\\mathrm{Euc}}",
+      "bottom-$\\rho$ entries of $|W|$ (plastic, near zero)"
+     ],
+     [
+      "\\odot",
+      "element-wise mask"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "eq_fwd",
+   "type": "formula",
+   "section": "Method",
+   "variant": "formula_center",
+   "content": {
+    "title": "A forward pass that starts exactly at W",
+    "latex": "h = W_{\\mathrm{res}}\\,x + \\frac{\\alpha}{r}\\,B_{\\mathrm{Geo}}A_{\\mathrm{Geo}}\\,x",
+    "terms": [
+     [
+      "W_{\\mathrm{res}}",
+      "frozen: $W$ minus the scaled initial adapter"
+     ],
+     [
+      "B_{\\mathrm{Geo}}A_{\\mathrm{Geo}}",
+      "trainable: starts as rank-$r$ approx. of $W_{Geo}$"
+     ],
+     [
+      "t=0",
+      "$h = Wx$: function-preserving"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "s3",
+   "type": "section",
+   "section": "Results",
+   "variant": "section_number",
+   "content": {
+    "number": "03",
+    "title": "Does it work?"
+   }
+  },
+  {
+   "id": "aime",
+   "type": "evidence",
+   "section": "Results",
+   "variant": "evidence_chart_side",
+   "content": {
+    "title": "In-domain: best low-rank method, on par with full FT",
+    "chart": {
+     "type": "bar",
+     "categories": [
+      "Base",
+      "LoRA",
+      "MiLoRA",
+      "PiSSA",
+      "SparseFT",
+      "FullFT",
+      "GeoRA"
+     ],
+     "series": [
+      {
+       "name": "AIME24",
+       "values": [
+        13.33,
+        19.58,
+        20.42,
+        22.5,
+        22.92,
+        23.33,
+        23.75
+       ]
+      }
+     ],
+     "point_roles": [
+      "muted",
+      "baseline",
+      "baseline",
+      "baseline",
+      "baseline",
+      "baseline",
+      "ours"
+     ],
+     "y_min": 0,
+     "fmt": "0.0",
+     "gap": 45
+    },
+    "takeaway": "AIME24, Qwen3-8B after math RLVR: ==23.8%== vs. 19.6% for LoRA.",
+    "source": "Table 1 (Qwen3-8B, DeepMath-103K, GRPO, $r = 16$)"
+   }
+  },
+  {
+   "id": "ood",
+   "type": "evidence",
+   "section": "Results",
+   "variant": "evidence_chart_side",
+   "content": {
+    "title": "Out-of-domain: math training hurts coding less",
+    "chart": {
+     "type": "bar",
+     "categories": [
+      "PiSSA",
+      "Base",
+      "FullFT",
+      "MiLoRA",
+      "SparseFT",
+      "LoRA",
+      "GeoRA"
+     ],
+     "series": [
+      {
+       "name": "HumanEval",
+       "values": [
+        71.95,
+        76.83,
+        76.83,
+        78.66,
+        79.5,
+        81.1,
+        82.93
+       ]
+      }
+     ],
+     "point_roles": [
+      "baseline",
+      "muted",
+      "baseline",
+      "baseline",
+      "baseline",
+      "baseline",
+      "ours"
+     ],
+     "y_min": 60,
+     "fmt": "0.0",
+     "gap": 45
+    },
+    "takeaway": "HumanEval after ==math-only== RLVR: GeoRA 82.9 – PiSSA drops below the base model.",
+    "source": "Table 1 (Qwen3-8B)"
+   }
+  },
+  {
+   "id": "eff",
+   "type": "statement",
+   "section": "Results",
+   "variant": "statement_number",
+   "content": {
+    "number": "−99.5%",
+    "number_name": "!!bignum",
+    "text": "trainable parameters vs. full FT – and ==20% faster== per step with 28% less VRAM."
+   },
+   "notes": "Table 3: 0.04B vs 8B params; 185 vs 231 s/it; 68.4% vs 95.7% VRAM. SparseFT is slower than full FT."
+  },
+  {
+   "id": "ablation",
+   "type": "evidence",
+   "section": "Results",
+   "variant": "evidence_table",
+   "content": {
+    "title": "Every component matters (ablation, Qwen3-4B)",
+    "rows": [
+     [
+      "Variant",
+      "Reward",
+      "AIME24",
+      "AIME25",
+      "MATH-500",
+      "Avg."
+     ],
+     [
+      "GeoRA",
+      "0.88",
+      "13.33",
+      "9.17",
+      "73.40",
+      "25.41"
+     ],
+     [
+      "Random-r init",
+      "0.85",
+      "12.50",
+      "8.50",
+      "72.10",
+      "24.60"
+     ],
+     [
+      "Tail-r init",
+      "0.82",
+      "11.67",
+      "7.50",
+      "70.80",
+      "23.40"
+     ],
+     [
+      "w/o spectral mask",
+      "0.86",
+      "12.50",
+      "8.33",
+      "72.00",
+      "24.40"
+     ],
+     [
+      "w/o Euclidean mask",
+      "0.83",
+      "13.33",
+      "8.75",
+      "72.80",
+      "25.10"
+     ]
+    ],
+    "ours_rows": [
+     1
+    ],
+    "source": "Table 4 (OlymMATH column omitted for space)"
+   }
+  },
+  {
+   "id": "s4",
+   "type": "section",
+   "section": "Discussion",
+   "variant": "section_number",
+   "content": {
+    "number": "04",
+    "title": "Our take"
+   }
+  },
+  {
+   "id": "questions",
+   "type": "content",
+   "section": "Discussion",
+   "variant": "content_one",
+   "content": {
+    "title": "Questions we would ask the authors",
+    "build": true,
+    "body": [
+     "AIME24 gap to full FT is ≈ 0.4 pt: what is the seed variance?",
+     "Main runs fix $\\rho = 0.2$ and $r = 16$: how sensitive is GeoRA?",
+     "Do the masks transfer beyond GRPO?"
+    ]
+   },
+   "notes": "Placeholder for the team's own analysis (bonus: beyond the paper). Appendix D reports rank/sparsity sweeps – check before presenting."
+  },
+  {
+   "id": "closing",
+   "type": "closing",
+   "section": "Discussion",
+   "variant": "closing_takeaways",
+   "content": {
+    "message": "Initialise where RL wants to move – and freeze the rest.",
+    "takeaways": [
+     "RLVR updates are low-rank and off-principal",
+     "GeoRA: masked SVD init + frozen residual",
+     "Full-FT accuracy at 0.5% of the parameters"
+    ]
+   }
+  },
+  {
+   "id": "thanks",
+   "type": "closing",
+   "section": "Discussion",
+   "variant": "closing_thanks",
+   "content": {
+    "title": "Thank you",
+    "subtitle": "Questions?",
+    "reference": "Zhang et al., GeoRA: Geometry-Aware Low-Rank Adaptation for RLVR, ACL 2026"
+   },
+   "notes": "Open the floor. Backup: Table 4 ablation, Fig. 2 masks."
+  },
+  {
+   "id": "credits",
+   "type": "credits",
+   "section": "Discussion",
+   "variant": "credits_two",
+   "content": {
+    "title": "Credits",
+    "lines": [
+     "Paper: Zhang et al., GeoRA, ACL 2026",
+     "Figures 1–2: reproduced from the paper",
+     "Numbers: Tables 1, 3, 4 of the paper",
+     "Fonts: Inter, JetBrains Mono (SIL OFL)",
+     "Charts: native PowerPoint, redrawn from tables",
+     "Slide design: slide-design-lab (this course project)",
+     "Reference decks: ICML/NeurIPS/ICLR 2025 talk slides (layout study only)"
+    ]
+   }
+  },
+  {
+   "id": "workflow",
+   "type": "diagram",
+   "section": "Discussion",
+   "variant": "diagram_flow",
+   "content": {
+    "title": "How these slides were made",
+    "steps": [
+     "Paper PDF",
+     "Content agent → slide spec",
+     {
+      "text": "Design pipeline (templates, Morph, checks)",
+      "role": "ours"
+     },
+     "PowerPoint + light edits"
+    ],
+    "caption": "Claude (Cowork autopilot) · python-pptx · native Morph XML · LibreOffice / PowerPoint renders · rule-based critic"
+   }
+  }
+ ]
+}

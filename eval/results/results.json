@@ -1,0 +1,177 @@
+[
+ {
+  "session": "minerva_single",
+  "paper": "minerva_2206.14858.pdf",
+  "content_source": "team",
+  "logical_slides": 16,
+  "grounding": {
+   "numbers_checked": 41,
+   "found_in_source": 41,
+   "not_in_source": 0,
+   "not_in_source_list": [],
+   "context_verdicts": {
+    "correct": 41
+   },
+   "context_reviewed": 41,
+   "context_reviewers": [
+    "claude-opus-5.5 (LLM review, not human)"
+   ]
+  },
+  "math_markup_errors": [],
+  "layout": {
+   "physical_slides": 19,
+   "issues_by_level_code": {
+    "error:overflow": 1,
+    "warn:words": 1
+   },
+   "errors": 1,
+   "warnings": 1,
+   "error_list": [
+    {
+     "slide": 7,
+     "id": "table3",
+     "code": "overflow",
+     "msg": "!!cv_6_19: text needs 119% of box height"
+    }
+   ]
+  },
+  "editability": {
+   "pptx": "studio\\sessions\\minerva_single\\deck\\minerva_single.pptx",
+   "slides_in_pptx": 19,
+   "native_text_frames": 977,
+   "pictures": 53,
+   "native_equations_omml": 0,
+   "spec_words": 203,
+   "spec_words_as_native_text": 1.0
+  },
+  "cost_time": {
+   "wall_seconds_total": 371.5,
+   "wall_seconds_by_step": {
+    "design.render_options": 131.6,
+    "agents.propose_options": 92.0,
+    "agents.draft_placeholder_spec": 67.8,
+    "agents.review_deck": 24.1,
+    "deck.apply_review_fixes": 22.2,
+    "agents.write_brief": 10.5,
+    "office.export_deck": 10.1,
+    "deck.build_deck": 9.4,
+    "content.ingest_paper": 3.7,
+    "design.choose_option": 0.1,
+    "deck.deck_report": 0.0,
+    "content.set_llm": 0.0,
+    "content.set_team": 0.0,
+    "content.kickoff": 0.0
+   },
+   "design_agents": {
+    "calls": 13,
+    "tokens_in": 384518,
+    "tokens_out": 21233,
+    "est_api_cost_usd": 1.014,
+    "seconds": 173.1
+   },
+   "content_pipeline": {
+    "calls": 0,
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "est_api_cost_usd": 0.0,
+    "seconds": 0.0
+   },
+   "content_step": {
+    "calls": 2,
+    "tokens_in": 273488,
+    "tokens_out": 9875,
+    "est_api_cost_usd": 0.686,
+    "seconds": 67.3
+   },
+   "p2s_run_id": null
+  },
+  "human_review": {
+   "slides": 15,
+   "reviewed": 0,
+   "need_edit": 0,
+   "minutes": 0,
+   "reviewers": []
+  }
+ },
+ {
+  "session": "minerva_checked",
+  "paper": "minerva_2206.14858.pdf",
+  "content_source": "team",
+  "logical_slides": 16,
+  "grounding": {
+   "numbers_checked": 23,
+   "found_in_source": 23,
+   "not_in_source": 0,
+   "not_in_source_list": [],
+   "context_verdicts": {
+    "correct": 21,
+    "not_a_quantity": 2
+   },
+   "context_reviewed": 23,
+   "context_reviewers": [
+    "claude-opus-5.5 (LLM review, not human)"
+   ]
+  },
+  "math_markup_errors": [],
+  "layout": {
+   "physical_slides": 16,
+   "issues_by_level_code": {},
+   "errors": 0,
+   "warnings": 0,
+   "error_list": []
+  },
+  "editability": {
+   "pptx": "studio\\sessions\\minerva_checked\\deck\\minerva_checked.pptx",
+   "slides_in_pptx": 16,
+   "native_text_frames": 711,
+   "pictures": 29,
+   "native_equations_omml": 0,
+   "spec_words": 185,
+   "spec_words_as_native_text": 0.995
+  },
+  "cost_time": {
+   "wall_seconds_total": 319.8,
+   "wall_seconds_by_step": {
+    "design.render_options": 124.0,
+    "team.team_resume": 85.7,
+    "team.team_start": 36.2,
+    "agents.review_deck": 26.0,
+    "agents.propose_options": 18.0,
+    "deck.apply_review_fixes": 13.4,
+    "deck.build_deck": 8.4,
+    "office.export_deck": 8.0,
+    "design.choose_option": 0.0,
+    "deck.deck_report": 0.0
+   },
+   "design_agents": {
+    "calls": 3,
+    "tokens_in": 34331,
+    "tokens_out": 5038,
+    "est_api_cost_usd": 0.164,
+    "seconds": 43.6
+   },
+   "content_pipeline": {
+    "calls": 16,
+    "tokens_in": 330060,
+    "tokens_out": 16506,
+    "est_api_cost_usd": 1.255,
+    "seconds": 134.716
+   },
+   "content_step": {
+    "calls": 16,
+    "tokens_in": 330060,
+    "tokens_out": 16506,
+    "est_api_cost_usd": 1.255,
+    "seconds": 134.716
+   },
+   "p2s_run_id": "minerva_checked-20261122-184919"
+  },
+  "human_review": {
+   "slides": 15,
+   "reviewed": 0,
+   "need_edit": 0,
+   "minutes": 0,
+   "reviewers": []
+  }
+ }
+]

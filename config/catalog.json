@@ -1,0 +1,16 @@
+{
+  "_comment": "PLACEHOLDER limits. Replace with design's catalog.json (same keys). Limits are words unless noted.",
+  "title":           {"title_words": 16, "bullets_max": 0, "bullet_words": 0},
+  "content":         {"title_words": 16, "bullets_max": 5, "bullet_words": 18},
+  "figure":          {"title_words": 16, "bullets_max": 1, "bullet_words": 20, "figures_max": 1},
+  "figure_text":     {"title_words": 16, "bullets_max": 3, "bullet_words": 16, "figures_max": 1},
+  "comparison":      {"title_words": 16, "bullets_max": 6, "bullet_words": 12},
+  "big_number":      {"title_words": 14, "bullets_max": 2, "bullet_words": 14},
+  "formula":         {"title_words": 16, "bullets_max": 3, "bullet_words": 16},
+  "section_divider": {"title_words": 8,  "bullets_max": 0, "bullet_words": 0},
+  "closing":         {"title_words": 16, "bullets_max": 4, "bullet_words": 16},
+  "thank_you":       {"title_words": 8,  "bullets_max": 0, "bullet_words": 0},
+  "evidence":        {"title_words": 16, "bullets_max": 3, "bullet_words": 16, "figures_max": 1},
+  "credits":         {"title_words": 8,  "bullets_max": 8, "bullet_words": 20},
+  "workflow":        {"title_words": 16, "bullets_max": 6, "bullet_words": 16}
+}

@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+runs/
+papers/*.pdf
+.pytest_cache/
+config/models.local.yaml
+
+# Slide Studio (studio/): local config, keys, sessions and renders never go to git
+studio/config.json
+studio/sessions/
+studio/outputs/
+studio/deck/
+studio/dist/
+studio/inbox/*
+!studio/inbox/README.md
+studio/fonts/_src/
+studio/fonts/.installed
+studio/_backup*/
+*.log
+

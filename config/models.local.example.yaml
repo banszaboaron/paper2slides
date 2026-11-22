@@ -1,0 +1,21 @@
+# Copy to config/models.local.yaml (gitignored) on the laptop that runs the Slide Studio.
+# Every content-side role on the Claude API, same key as the design side (ANTHROPIC_API_KEY).
+default:
+  provider: anthropic
+  model: claude-sonnet-5-5
+  max_tokens: 16000
+roles:
+  # no `temperature`: the current Claude models only accept the default
+  outline: {provider: anthropic, model: claude-sonnet-5-5, max_tokens: 16000}
+  content: {provider: anthropic, model: claude-sonnet-5-5, max_tokens: 8000}
+  checker: {provider: anthropic, model: claude-sonnet-5-5, max_tokens: 8000}
+  script:  {provider: anthropic, model: claude-sonnet-5-5, max_tokens: 16000}
+  judge:   {provider: anthropic, model: claude-sonnet-5-5, max_tokens: 8000}
+
+# Claude Code CLI instead (your own Pro/Max subscription, no API key; slower, counts against the plan):
+# default: {provider: claude_cli, model: sonnet, timeout_s: 900}
+# roles:
+#   outline: {provider: claude_cli, model: sonnet, timeout_s: 900}
+#   content: {provider: claude_cli, model: sonnet}
+#   checker: {provider: claude_cli, model: sonnet}
+#   script:  {provider: claude_cli, model: sonnet, timeout_s: 900}

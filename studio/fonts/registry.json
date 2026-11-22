@@ -1,0 +1,194 @@
+{
+ "Manrope": {
+  "regular": "Manrope-Regular.ttf",
+  "bold": "Manrope-Bold.ttf"
+ },
+ "Manrope SemiBold": {
+  "regular": "Manrope-SemiBold.ttf",
+  "bold": "Manrope-Bold.ttf"
+ },
+ "IBM Plex Sans": {
+  "regular": "IBMPlexSans-Regular.ttf",
+  "bold": "IBMPlexSans-Bold.ttf"
+ },
+ "IBM Plex Sans SemiBold": {
+  "regular": "IBMPlexSans-SemiBold.ttf",
+  "bold": "IBMPlexSans-Bold.ttf"
+ },
+ "Fraunces": {
+  "regular": "Fraunces-Regular.ttf",
+  "bold": "Fraunces-Bold.ttf"
+ },
+ "Fraunces SemiBold": {
+  "regular": "Fraunces-SemiBold.ttf",
+  "bold": "Fraunces-Bold.ttf"
+ },
+ "Space Grotesk": {
+  "regular": "SpaceGrotesk-Regular.ttf",
+  "bold": "SpaceGrotesk-Bold.ttf"
+ },
+ "Space Grotesk SemiBold": {
+  "regular": "SpaceGrotesk-SemiBold.ttf",
+  "bold": "SpaceGrotesk-Bold.ttf"
+ },
+ "IBM Plex Mono": {
+  "regular": "IBMPlexMono-Regular.ttf",
+  "bold": "IBMPlexMono-Bold.ttf"
+ },
+ "IBM Plex Mono SemiBold": {
+  "regular": "IBMPlexMono-SemiBold.ttf",
+  "bold": "IBMPlexMono-Bold.ttf"
+ },
+ "Source Sans 3": {
+  "regular": "SourceSans3-Regular.ttf",
+  "bold": "SourceSans3-Bold.ttf"
+ },
+ "Source Sans 3 SemiBold": {
+  "regular": "SourceSans3-SemiBold.ttf",
+  "bold": "SourceSans3-Bold.ttf"
+ },
+ "Newsreader": {
+  "regular": "Newsreader-Regular.ttf",
+  "bold": "Newsreader-Bold.ttf"
+ },
+ "Newsreader SemiBold": {
+  "regular": "Newsreader-SemiBold.ttf",
+  "bold": "Newsreader-Bold.ttf"
+ },
+ "IBM Plex Serif": {
+  "regular": "IBMPlexSerif-Regular.ttf",
+  "bold": "IBMPlexSerif-Bold.ttf"
+ },
+ "IBM Plex Serif SemiBold": {
+  "regular": "IBMPlexSerif-SemiBold.ttf",
+  "bold": "IBMPlexSerif-Bold.ttf"
+ },
+ "Barlow": {
+  "regular": "Barlow-Regular.ttf",
+  "bold": "Barlow-Bold.ttf"
+ },
+ "Barlow SemiBold": {
+  "regular": "Barlow-SemiBold.ttf",
+  "bold": "Barlow-Bold.ttf"
+ },
+ "Bebas Neue": {
+  "regular": "BebasNeue-Regular.ttf",
+  "bold": "BebasNeue-Bold.ttf"
+ },
+ "Bebas Neue SemiBold": {
+  "regular": "BebasNeue-SemiBold.ttf",
+  "bold": "BebasNeue-Bold.ttf"
+ },
+ "Fira Code": {
+  "regular": "FiraCode-Regular.ttf",
+  "bold": "FiraCode-Bold.ttf"
+ },
+ "Fira Code SemiBold": {
+  "regular": "FiraCode-SemiBold.ttf",
+  "bold": "FiraCode-Bold.ttf"
+ },
+ "Sora": {
+  "regular": "Sora-Regular.ttf",
+  "bold": "Sora-Bold.ttf"
+ },
+ "Sora SemiBold": {
+  "regular": "Sora-SemiBold.ttf",
+  "bold": "Sora-Bold.ttf"
+ },
+ "Archivo": {
+  "regular": "Archivo-Regular.ttf",
+  "bold": "Archivo-Bold.ttf"
+ },
+ "Archivo SemiBold": {
+  "regular": "Archivo-SemiBold.ttf",
+  "bold": "Archivo-Bold.ttf"
+ },
+ "DM Mono": {
+  "regular": "DMMono-Regular.ttf",
+  "bold": "DMMono-Bold.ttf"
+ },
+ "DM Mono SemiBold": {
+  "regular": "DMMono-SemiBold.ttf",
+  "bold": "DMMono-Bold.ttf"
+ },
+ "DM Sans": {
+  "regular": "DMSans-Regular.ttf",
+  "bold": "DMSans-Bold.ttf"
+ },
+ "DM Sans SemiBold": {
+  "regular": "DMSans-SemiBold.ttf",
+  "bold": "DMSans-Bold.ttf"
+ },
+ "DM Serif Display": {
+  "regular": "DMSerifDisplay-Regular.ttf",
+  "bold": "DMSerifDisplay-Bold.ttf"
+ },
+ "DM Serif Display SemiBold": {
+  "regular": "DMSerifDisplay-SemiBold.ttf",
+  "bold": "DMSerifDisplay-Bold.ttf"
+ },
+ "Barlow Condensed": {
+  "regular": "BarlowCondensed-Regular.ttf",
+  "bold": "BarlowCondensed-Bold.ttf"
+ },
+ "Barlow Condensed SemiBold": {
+  "regular": "BarlowCondensed-SemiBold.ttf",
+  "bold": "BarlowCondensed-Bold.ttf"
+ },
+ "Space Mono": {
+  "regular": "SpaceMono-Regular.ttf",
+  "bold": "SpaceMono-Bold.ttf"
+ },
+ "Space Mono SemiBold": {
+  "regular": "SpaceMono-SemiBold.ttf",
+  "bold": "SpaceMono-Bold.ttf"
+ },
+ "Lora": {
+  "regular": "Lora-Regular.ttf",
+  "bold": "Lora-Bold.ttf"
+ },
+ "Lora SemiBold": {
+  "regular": "Lora-SemiBold.ttf",
+  "bold": "Lora-Bold.ttf"
+ },
+ "Libre Franklin": {
+  "regular": "LibreFranklin-Regular.ttf",
+  "bold": "LibreFranklin-Bold.ttf"
+ },
+ "Libre Franklin SemiBold": {
+  "regular": "LibreFranklin-SemiBold.ttf",
+  "bold": "LibreFranklin-Bold.ttf"
+ },
+ "Crimson Pro": {
+  "regular": "CrimsonPro-Regular.ttf",
+  "bold": "CrimsonPro-Bold.ttf"
+ },
+ "Crimson Pro SemiBold": {
+  "regular": "CrimsonPro-SemiBold.ttf",
+  "bold": "CrimsonPro-Bold.ttf"
+ },
+ "Public Sans": {
+  "regular": "PublicSans-Regular.ttf",
+  "bold": "PublicSans-Bold.ttf"
+ },
+ "Public Sans SemiBold": {
+  "regular": "PublicSans-SemiBold.ttf",
+  "bold": "PublicSans-Bold.ttf"
+ },
+ "Source Code Pro": {
+  "regular": "SourceCodePro-Regular.ttf",
+  "bold": "SourceCodePro-Bold.ttf"
+ },
+ "Source Code Pro SemiBold": {
+  "regular": "SourceCodePro-SemiBold.ttf",
+  "bold": "SourceCodePro-Bold.ttf"
+ },
+ "Noto Sans": {
+  "regular": "NotoSans-Regular.ttf",
+  "bold": "NotoSans-Bold.ttf"
+ },
+ "Noto Sans SemiBold": {
+  "regular": "NotoSans-SemiBold.ttf",
+  "bold": "NotoSans-Bold.ttf"
+ }
+}

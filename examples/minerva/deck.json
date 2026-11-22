@@ -1,0 +1,288 @@
+{
+ "title": "Solving Quantitative Reasoning Problems with Language Models",
+ "paper": "Aitor Lewkowycz, Anders Andreassen, David Dohan, Ethan Dyer, Henryk Michalewski, Vinay Ramasesh, Ambrose Slone, Cem Anil, Imanol Schlag, Theo Gutman-Solo, Yuhuai Wu, Behnam Neyshabur, Guy Gur-Ari, Vedant Misra. Solving Quantitative Reasoning Problems with Language Models. Demo talk",
+ "talk_minutes": 15,
+ "team": [
+  "paper2slides demo"
+ ],
+ "sources": [
+  {
+   "path": "minerva_2206.14858.pdf",
+   "role": "paper",
+   "comment": "",
+   "title": "Solving Quantitative Reasoning Problems With Language Models"
+  }
+ ],
+ "_note": "Written by the team's content pipeline (p2s run minerva_checked-20261122-184919).",
+ "slides": [
+  {
+   "id": "title",
+   "type": "title",
+   "section": "",
+   "content": {
+    "title": "Solving Quantitative Reasoning Problems with Language Models",
+    "subtitle": "Demo talk",
+    "authors": "Lewkowycz et al. · presented by paper2slides demo"
+   },
+   "notes": "[~60 s]\nHello everyone, and welcome to our talk. Today we present the paper Solving Quantitative Reasoning Problems with Language Models, by Lewkowycz and colleagues at Google Research. The paper introduces Minerva, a large language model that solves math and science problems step by step, and it does this without any external tools like a calculator. Language models have been very good at many language tasks, but quantitative reasoning, meaning math, science, and engineering problems, has been a real weak spot. This talk is also a demo of paper2slides, our system that turns a paper into a presentation. We are the paper2slides demo team, and over the next fifteen minutes we will walk you through the main ideas, the results, and a few limits that we think matter.",
+   "seconds": 60
+  },
+  {
+   "id": "sec1",
+   "type": "section",
+   "section": "Why is quantitative reasoning hard?",
+   "variant": "section_number",
+   "content": {
+    "number": "01",
+    "title": "Why is quantitative reasoning hard?"
+   }
+  },
+  {
+   "id": "s01",
+   "type": "figure",
+   "section": "Why is quantitative reasoning hard?",
+   "content": {
+    "title": "Minerva writes step-by-step LaTeX solutions on its own",
+    "image": "assets/fig1.png",
+    "image_name": "!!fig1",
+    "meaning": "Minerva solves a MATH problem with valid LaTeX steps, using a different approach than the ground truth and no external tools.",
+    "caption": "Fig. 1, Lewkowycz et al. 2022 (Minerva 62B, majority vote over 256 samples)"
+   },
+   "notes": "[~90 s]\nLet us start with an example. Here is a question from the MATH dataset. A line is parallel to y equals 4x plus 6 and passes through the point 5, 10. Where does it cross the y-axis? The reference solution says the slope is 4, then plugs the point into slope-intercept form to find the intercept. Minerva takes a different route. It writes the line in point-slope form, simplifies it, and then substitutes x equals 0 to get minus 10. So it is not copying the reference approach, it finds its own. Notice also the format. Everything is written in valid LaTeX, with natural language explanations between the steps, much like a student working on paper. And there is no calculator and no other tool involved. This particular solution comes from the 62 billion parameter model, and it was chosen by majority vote over 256 samples. We will come back to what that means in a moment.",
+   "seconds": 90
+  },
+  {
+   "id": "sec2",
+   "type": "section",
+   "section": "How is Minerva built?",
+   "variant": "section_number",
+   "content": {
+    "number": "02",
+    "title": "How is Minerva built?"
+   }
+  },
+  {
+   "id": "s02",
+   "type": "evidence",
+   "section": "How is Minerva built?",
+   "content": {
+    "title": "Minerva continues PaLM training on 38.5B math tokens",
+    "rows": [
+     [
+      "Source",
+      "Share",
+      "Tokens",
+      "In PaLM?"
+     ],
+     [
+      "Math web pages",
+      "47.5%",
+      "17.5B",
+      "No"
+     ],
+     [
+      "arXiv",
+      "47.5%",
+      "21.0B",
+      "No"
+     ],
+     [
+      "General text",
+      "5%",
+      ">100B",
+      "Yes"
+     ]
+    ],
+    "ours_rows": [
+     1,
+     2
+    ],
+    "source": "Table 1, Lewkowycz et al. 2022"
+   },
+   "notes": "[~95 s]\nSo how was Minerva built? The authors did not start from scratch. They took the pretrained PaLM language models and continued training them on a technical dataset of 38.5 billion tokens. As the table shows, this data comes mostly from two sources, math web pages and arXiv papers, split about evenly. A small share is general natural language data. It is a subset of PaLM's own pretraining data, and it helps keep the general language skills intact. The key detail is the cleaning. The web pages were selected because they contain MathJax, and the cleaning step removes most of the HTML but keeps the LaTeX. So formulas such as E equals m c squared reach the model in full, not as flattened text. The authors describe this as the main novelty of the paper: a large dataset that puts natural language right next to correct formal mathematical notation. That is what lets the model handle calculation and symbolic manipulation.",
+   "variant": "evidence_table",
+   "seconds": 95
+  },
+  {
+   "id": "s03",
+   "type": "diagram",
+   "section": "How is Minerva built?",
+   "content": {
+    "title": "Minerva = PaLM + math training + sampling + majority vote",
+    "steps": [
+     "Pretrained PaLM (8B / 62B / 540B)",
+     {
+      "text": "Continued training on math data",
+      "role": "ours"
+     },
+     "Few-shot prompt (4-shot on MATH)",
+     {
+      "text": "Sample k solutions",
+      "role": "ours"
+     },
+     {
+      "text": "Majority vote on final answers",
+      "role": "ours"
+     }
+    ],
+    "caption": "Sec. 2.2–2.5; no external tools, no calculator",
+    "builds": {
+     "1": 1,
+     "2": 1,
+     "3": 2,
+     "4": 3,
+     "5": 3
+    }
+   },
+   "notes": "[~95 s]\nHere is the whole recipe in one picture. We begin with a pretrained PaLM model, in three sizes: 8 billion, 62 billion, and 540 billion parameters. We continue training it on the math data we just saw. Then, at test time, we give the model a fixed few-shot prompt. On MATH this is four worked examples, and the same prompt is used for every question. Next, we sample many candidate solutions for each problem, using nucleus sampling, so the solutions differ from each other. Finally, we do majority voting. We group the solutions by their final answer and pick the most common one. The intuition is simple. There are many ways to get an answer wrong, but very few ways to get it right, so correct answers tend to agree with each other. And again, this all happens with no external tools and no calculator. Everything is the model's own reasoning.",
+   "seconds": 95
+  },
+  {
+   "id": "sec3",
+   "type": "section",
+   "section": "How well does it perform?",
+   "variant": "section_number",
+   "content": {
+    "number": "03",
+    "title": "How well does it perform?"
+   }
+  },
+  {
+   "id": "s04",
+   "type": "figure",
+   "section": "How well does it perform?",
+   "content": {
+    "title": "Minerva beats PaLM and prior SOTA; majority voting adds more",
+    "image": "assets/fig4.png",
+    "image_name": "!!fig4",
+    "meaning": "Across MATH and MMLU-STEM subtopics, Minerva exceeds PaLM at every size and the published SOTA, and maj1@k bars add a large further gain.",
+    "caption": "Fig. 4, Lewkowycz et al. 2022: accuracy by subtopic; maj1@k = majority vote over k samples"
+   },
+   "notes": "[~100 s]\nNow the results. This figure shows accuracy by subtopic, for MATH on the left and for the STEM part of MMLU on the right. Each color is a model size. At every size, the Minerva bars sit well above the PaLM bars, so the extra math training clearly helps. The bars marked maj1@k show what happens when we sample many solutions and vote. Here k is the number of samples, and only the most common answer is kept. These bars add a large further gain on top of the plain Minerva results. The gray bars are the previously published state of the art and OpenAI's davinci-002, and Minerva exceeds both on overall accuracy for both benchmarks. So we see three things working together: better data, larger models, and inference-time voting. No single one of them explains the whole improvement, and that is an important point to keep in mind.",
+   "seconds": 100
+  },
+  {
+   "id": "s05",
+   "type": "statement",
+   "section": "How well does it perform?",
+   "content": {
+    "number": "50.3%",
+    "number_name": "Minerva 540B maj1@k on MATH",
+    "text": "Previous state of the art: ==6.9%==",
+    "title": "Minerva 540B reaches 50.3% on MATH, up from 6.9%",
+    "source": "Table 3"
+   },
+   "notes": "[~60 s]\nThis is the headline number. Minerva 540B, with majority voting over 64 samples, reaches 50.3 percent on MATH. The previous published state of the art was 6.9 percent, and that came from GPT-2. So the model now solves about half of these competition-style problems. Remember that it does this with no calculator and no external tools, relying only on its own reasoning. That is a very large jump, and it explains why this paper drew so much attention.",
+   "variant": "statement_number",
+   "seconds": 60
+  },
+  {
+   "id": "sec4",
+   "type": "section",
+   "section": "Can we trust the results?",
+   "variant": "section_number",
+   "content": {
+    "number": "04",
+    "title": "Can we trust the results?"
+   }
+  },
+  {
+   "id": "s06",
+   "type": "content",
+   "section": "Can we trust the results?",
+   "content": {
+    "title": "Right answers can hide flawed reasoning",
+    "body": [
+     "8B errors: reasoning 82/201, calculation 70/201",
+     "Only the final answer is checked automatically",
+     "MATH false positive rate: about 8%, 30% at level 5",
+     "Our question: does a correct answer mean valid reasoning on hard problems?"
+    ],
+    "build": true
+   },
+   "notes": "[~110 s]\nBut a good score does not tell the whole story, and here we add our own question. The paper checks only the final answer automatically, by comparing it to the ground truth. It does not check the reasoning behind it. So a solution can reach the right answer for the wrong reasons. The authors looked at the mistakes of the 8B model, and most errors came from incorrect reasoning, 82 out of 201 cases, or from incorrect calculation, 70 out of 201. They also inspected answers by hand to estimate the false positive rate on MATH, meaning correct final answers with incomplete or flawed reasoning. On average it is low, about 8 percent. But it rises with difficulty, and reaches 30 percent at level 5, the hardest problems. So our question is this: on hard problems, does a correct answer really mean valid reasoning? We think a high score should be read with some care, because the final answer alone can flatter the model.",
+   "seconds": 110
+  },
+  {
+   "id": "s07",
+   "type": "figure",
+   "section": "Can we trust the results?",
+   "content": {
+    "title": "Memorization checks find little evidence of recall",
+    "image": "assets/fig5.png",
+    "image_name": "!!fig5",
+    "meaning": "Accuracy on modified problems tracks the original with no bias, and majority-vote accuracy holds when samples similar to the ground truth are removed.",
+    "caption": "Figure 5, Lewkowycz et al. 2022"
+   },
+   "notes": "[~95 s]\nAnother natural worry is memorization. Maybe the model has simply seen these problems during training. The authors ran several checks. First, they searched the training corpus and found no matching MATH questions. Then they modified 20 problems, by rewording them or changing the numbers. On the left and center of the figure, accuracy on the modified problems is correlated with accuracy on the originals, with no clear bias toward the originals. On the right, they removed samples that were very similar to the ground-truth solution, using a BLEU filter, and majority-vote accuracy barely dropped. So the evidence suggests that the model is not just recalling answers. It does memorize useful intermediate facts, like values of square roots or trigonometric identities, but it also puts the solutions together itself.",
+   "seconds": 95
+  },
+  {
+   "id": "s08",
+   "type": "closing",
+   "section": "Can we trust the results?",
+   "content": {
+    "message": "Data, scale and voting drive Minerva's gains",
+    "takeaways": [
+     "Quality data, scale, majority vote",
+     "Strong without external tools",
+     "No verification, no calculator, little control"
+    ]
+   },
+   "notes": "[~70 s]\nLet us wrap up. Minerva's gains come from three ingredients together: high-quality math data, model scale, and majority voting at inference time. And it is strong without any external tools. But there are real limits. We cannot verify the reasoning automatically, as we saw with false positives. There is no calculator, so heavy arithmetic remains a weakness. And we have little control over what the model has actually learned. Still, the paper sets a new baseline for quantitative reasoning with language models, and it shows how far data quality and scale can go.",
+   "variant": "closing_takeaways",
+   "seconds": 70
+  },
+  {
+   "id": "credits",
+   "type": "credits",
+   "section": "Can we trust the results?",
+   "content": {
+    "title": "Sources and credits",
+    "lines": [
+     "Paper: Lewkowycz et al., Solving Quantitative Reasoning Problems with Language Models. Demo talk",
+     "Figures: fig1, fig4, fig5, tab1, tab2, tab4, tab5 from the documents above",
+     "Slides: content agents (LangGraph) + design pipeline (slide-design-lab)",
+     "Team: paper2slides demo"
+    ]
+   },
+   "notes": "[~20 s]\nHere are our sources. The paper is by Lewkowycz and colleagues, and all figures and tables come from that paper. The slides were produced by our paper2slides demo team, using content agents and a design pipeline.",
+   "seconds": 20
+  },
+  {
+   "id": "workflow",
+   "type": "diagram",
+   "section": "Can we trust the results?",
+   "content": {
+    "title": "How these slides were made",
+    "steps": [
+     "1 document → outline agent",
+     {
+      "text": "Content agents write each slide",
+      "role": "ours"
+     },
+     "Rule + LLM checkers, auto-approved",
+     "Design agents, 5 auto-picked choices",
+     "PowerPoint"
+    ],
+    "caption": "LangGraph content pipeline + MCP design servers · 16 LLM calls, 15 checks · Claude Code (sonnet)"
+   },
+   "notes": "[~50 s]\nSince this is a demo of paper2slides, here is how these slides were made. We give the system one document, and an outline agent plans the talk. Content agents then write each slide. Rule-based and LLM checkers test the content against the sources and the space on each slide; in this scripted run the two review pauses were approved automatically. Design agents proposed the look, the first option was taken at each stage, and the result is exported to PowerPoint. The content part runs on LangGraph, and the design part uses MCP servers.",
+   "variant": "diagram_flow",
+   "seconds": 50
+  },
+  {
+   "id": "thanks",
+   "type": "closing",
+   "section": "Can we trust the results?",
+   "content": {
+    "title": "Thank you",
+    "subtitle": "Questions?",
+    "reference": "Lewkowycz et al., Solving Quantitative Reasoning Problems with Language Models. Demo talk"
+   },
+   "notes": "[~10 s]\nThank you for listening. We are happy to take your questions.",
+   "variant": "closing_thanks",
+   "seconds": 10
+  }
+ ]
+}

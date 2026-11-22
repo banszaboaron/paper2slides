@@ -1,0 +1,15 @@
+python-pptx>=1.0
+lxml
+fonttools
+pillow
+matplotlib
+pymupdf
+mcp>=1.12,<2
+anthropic>=0.40
+starlette
+uvicorn
+pywin32; sys_platform == "win32"
+trimesh
+networkx
+scipy
+svgelements

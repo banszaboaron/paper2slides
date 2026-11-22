@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>p2s choices</title>
+<style>
+  :root { --bg:#f7f7f5; --fg:#1d1d1b; --muted:#6b6b66; --card:#fff; --line:#e3e3de; --accent:#2f5bd3; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#161615; --fg:#ecece8; --muted:#9a9a94; --card:#20201e; --line:#33332f; --accent:#7d9bff; } }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.5 system-ui, sans-serif; background:var(--bg); color:var(--fg); }
+  .wrap { display:grid; grid-template-columns: 260px 1fr; min-height:100vh; }
+  aside { border-right:1px solid var(--line); padding:16px; }
+  main { padding:24px; max-width:1000px; }
+  .run { padding:8px 10px; border-radius:6px; cursor:pointer; margin-bottom:4px; }
+  .run.sel, .run:hover { background:var(--card); }
+  .tag { font-size:12px; color:var(--muted); }
+  .wait { color:#c27c00; } .done { color:#2a8a3e; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px; margin:12px 0; }
+  table { border-collapse:collapse; width:100%; font-size:14px; }
+  td, th { text-align:left; padding:4px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  textarea { width:100%; min-height:80px; font:inherit; background:var(--bg); color:var(--fg); border:1px solid var(--line); border-radius:6px; padding:8px; }
+  button { font:inherit; padding:8px 14px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--fg); cursor:pointer; margin-right:8px; }
+  button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .figs { display:flex; gap:8px; flex-wrap:wrap; } .figs img { max-height:140px; border:1px solid var(--line); background:#fff; }
+  code { font-size:13px; }
+  @media (max-width: 700px) { .wrap { grid-template-columns: 1fr; } aside { border-right:0; border-bottom:1px solid var(--line); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside><h3 style="margin-top:0">Runs</h3><div id="runs"></div>
+    <p class="tag">Start a run: <code>python -m p2s run --pdf paper.pdf</code> or ask OpenClaw.</p></aside>
+  <main id="main"><p class="tag">Select a run.</p></main>
+</div>
+<script>
+let sel = null;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const rel = (rid, p) => { const n = String(p).replace(/\\/g, "/"); const k = n.indexOf("/" + rid + "/"); return k >= 0 ? n.slice(k + rid.length + 2) : null; };
+
+async function loadRuns() {
+  const runs = await (await fetch("/api/runs")).json();
+  document.getElementById("runs").innerHTML = runs.map(r =>
+    `<div class="run ${r.run_id === sel ? "sel" : ""}" onclick="pick('${r.run_id}')">${esc(r.run_id)}<br>
+     <span class="tag ${r.state === "waiting_for_human" ? "wait" : r.state === "done" ? "done" : ""}">${r.busy ? "working…" : esc(r.state)}</span></div>`).join("");
+}
+async function pick(id) { sel = id; await render(); loadRuns(); }
+
+async function render() {
+  if (!sel) return;
+  const r = await (await fetch(`/api/runs/${sel}`)).json();
+  const m = document.getElementById("main");
+  let h = `<h2 style="margin-top:0">${esc(r.run_id)}</h2><div class="tag">state: ${r.busy ? "working…" : esc(r.state)} · next: ${esc(r.next)}</div>`;
+  if (r.error) h += `<div class="card" style="border-color:#c33">Error: <code>${esc(r.error)}</code></div>`;
+  if (r.pptx_path) h += `<div class="card">Deck: <code>${esc(r.pptx_path)}</code></div>`;
+  for (const p of r.pending || []) {
+    const c = p.context || {};
+    h += `<div class="card"><b>${esc(p.question)}</b><div class="tag">${esc(p.kind)}</div>`;
+    if (c.slides) h += `<table><tr><th>id</th><th>type</th><th>${c.slides[0]?.goal !== undefined ? "goal" : "title / bullets"}</th></tr>` +
+      c.slides.map(s => `<tr><td>${esc(s.id)}</td><td>${esc(s.type)}</td><td>${esc(s.goal ?? s.title)}${
+        s.bullets?.length ? "<ul>" + s.bullets.map(b => `<li>${esc(b)}</li>`).join("") + "</ul>" : ""}${
+        s.figure_ids?.length ? ` <span class="tag">[${esc(s.figure_ids.join(", "))}]</span>` : ""}</td></tr>`).join("") + `</table>`;
+    if (c.figures?.length) h += `<p class="tag">Extracted figures (check the crops):</p><div class="figs">` +
+      c.figures.map(f => { const u = rel(sel, f.path); return u ? `<figure style="margin:0"><img src="/files/${sel}/${u}"><figcaption class="tag">${esc(f.id)} p${f.page}</figcaption></figure>` : ""; }).join("") + `</div>`;
+    if (c.unresolved_feedback?.length) h += `<p class="tag">Unresolved validator issues:</p><ul>` +
+      c.unresolved_feedback.map(f => `<li><code>${esc(f.slide_id)}</code> ${esc(f.issue)}: ${esc(f.message)}</li>`).join("") + `</ul>`;
+    h += `<p><textarea id="txt" placeholder="Notes / requested changes (mention slide ids like s04)"></textarea></p>` +
+      (p.options || []).map(o => `<button class="${o.id === p.default ? "primary" : ""}" onclick="answer('${o.id}')">${esc(o.label)}</button>`).join("") + `</div>`;
+  }
+  m.innerHTML = h;
+}
+async function answer(choice) {
+  const text = document.getElementById("txt")?.value || "";
+  await fetch(`/api/runs/${sel}/resume`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ choice, text }) });
+  render(); loadRuns();
+}
+loadRuns();
+setInterval(() => { loadRuns(); if (sel && !document.activeElement?.matches("textarea")) render(); }, 3000);
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+ "provider": "anthropic",
+ "model": "claude-sonnet-5-5",
+ "api_key": "",
+ "_note": "Copy to config.json. Better: leave api_key empty and set the ANTHROPIC_API_KEY environment variable. provider 'replay' answers from replay/<session>/*.json (offline demo)."
+}

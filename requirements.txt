@@ -1,0 +1,28 @@
+# core graph
+langgraph>=0.6
+langgraph-checkpoint-sqlite>=2.0
+langchain>=0.3
+langchain-core>=0.3
+pydantic>=2.7
+pyyaml>=6.0
+python-dotenv>=1.0
+
+# model providers (pick per role in config/models.yaml)
+langchain-google-genai>=2.0
+langchain-ollama>=0.2
+langchain-openai>=0.2      # also OpenRouter / vLLM / LM Studio via base_url
+langchain-groq>=0.2
+langchain-anthropic>=0.3  # Claude API (same key as the design side)
+
+# paper ingestion
+pymupdf>=1.24
+
+# human-choice UI
+fastapi>=0.110
+uvicorn>=0.29
+
+# fallback draft deck (design side replaces this)
+python-pptx>=1.0
+
+# tests
+pytest>=8.0

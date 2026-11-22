@@ -1,0 +1,286 @@
+{
+ "decks": {
+  "alignment": {
+   "genre": "tutorial",
+   "slides": 261,
+   "words_median": 87,
+   "words_p75": 111,
+   "words_p90": 136
+  },
+  "brain-tuning": {
+   "genre": "research",
+   "slides": 10,
+   "words_median": 53.5,
+   "words_p75": 59,
+   "words_p90": 71
+  },
+  "induction": {
+   "genre": "research",
+   "slides": 36,
+   "words_median": 69.5,
+   "words_p75": 134,
+   "words_p90": 188
+  },
+  "layer-by-layer": {
+   "genre": "research",
+   "slides": 20,
+   "words_median": 35.0,
+   "words_p75": 44,
+   "words_p90": 48
+  },
+  "llm-planning": {
+   "genre": "tutorial",
+   "slides": 138,
+   "words_median": 65.0,
+   "words_p75": 112,
+   "words_p90": 147
+  },
+  "physics": {
+   "genre": "research",
+   "slides": 49,
+   "words_median": 39,
+   "words_p75": 86,
+   "words_p90": 123
+  },
+  "sortformer": {
+   "genre": "research",
+   "slides": 13,
+   "words_median": 42,
+   "words_p75": 137,
+   "words_p90": 151
+  },
+  "willison": {
+   "genre": "technical-talk",
+   "slides": 26,
+   "words_median": 22.0,
+   "words_p75": 34,
+   "words_p90": 46
+  }
+ },
+ "labels": {
+  "good/concept_map": [
+   {
+    "slide": "sortformer-p002",
+    "words": 42,
+    "tags": "clear_hierarchy;grouping"
+   },
+   {
+    "slide": "brain-tuning-p002",
+    "words": 57,
+    "tags": "visual_summary;grouping"
+   },
+   {
+    "slide": "layer-by-layer-p008",
+    "words": 38,
+    "tags": "grouping;parallel_layout"
+   },
+   {
+    "slide": "layer-by-layer-p009",
+    "words": 48,
+    "tags": "focus;context_preserved"
+   }
+  ],
+  "good/comparison": [
+   {
+    "slide": "sortformer-p006",
+    "words": 26,
+    "tags": "parallel_layout;visual_explanation"
+   },
+   {
+    "slide": "hodges-p019",
+    "words": null,
+    "tags": "parallel_layout;contrast;grouping"
+   },
+   {
+    "slide": "alignment-p024",
+    "words": 83,
+    "tags": "parallel_layout;grouping;clear_hierarchy"
+   }
+  ],
+  "bad/comparison": [
+   {
+    "slide": "sortformer-p003",
+    "words": 275,
+    "tags": "clutter;small_labels;competing_emphasis"
+   },
+   {
+    "slide": "llm-planning-p020",
+    "words": 185,
+    "tags": "text_wall;dense_bullets;color_overuse"
+   }
+  ],
+  "bad/table": [
+   {
+    "slide": "sortformer-p011",
+    "words": 46,
+    "tags": "small_text;multiple_tables"
+   }
+  ],
+  "good/method": [
+   {
+    "slide": "brain-tuning-p005",
+    "words": 37,
+    "tags": "clear_flow;grouping"
+   },
+   {
+    "slide": "brain-tuning-p004",
+    "words": 59,
+    "tags": "clear_flow;grouping;visual_explanation"
+   },
+   {
+    "slide": "physics-p004",
+    "words": 36,
+    "tags": "clear_flow;few_steps"
+   },
+   {
+    "slide": "hodges-p007",
+    "words": null,
+    "tags": "clear_mapping;visual_explanation"
+   }
+  ],
+  "bad/results": [
+   {
+    "slide": "brain-tuning-p006",
+    "words": 28,
+    "tags": "small_chart_labels;small_legend"
+   },
+   {
+    "slide": "layer-by-layer-p017",
+    "words": 34,
+    "tags": "many_series;small_chart_labels;small_legend"
+   },
+   {
+    "slide": "induction-p019",
+    "words": 28,
+    "tags": "many_series;many_panels;small_labels"
+   }
+  ],
+  "good/title": [
+   {
+    "slide": "layer-by-layer-p001",
+    "words": 20,
+    "tags": "clear_hierarchy;contrast;whitespace"
+   }
+  ],
+  "good/key_statement": [
+   {
+    "slide": "induction-p007",
+    "words": 32,
+    "tags": "one_message;whitespace;contrast"
+   }
+  ],
+  "good/summary": [
+   {
+    "slide": "induction-p035",
+    "words": 71,
+    "tags": "grouping;readable_text"
+   }
+  ],
+  "bad/concept_map": [
+   {
+    "slide": "induction-p003",
+    "words": 47,
+    "tags": "many_panels;small_text;clutter"
+   }
+  ],
+  "bad/method": [
+   {
+    "slide": "induction-p030",
+    "words": 79,
+    "tags": "text_wall;small_text;many_panels"
+   },
+   {
+    "slide": "physics-p019",
+    "words": 13,
+    "tags": "document_screenshot;small_text;text_wall"
+   }
+  ],
+  "good/results": [
+   {
+    "slide": "physics-p035",
+    "words": 164,
+    "tags": "large_chart;baseline;direct_values"
+   }
+  ],
+  "good/closing": [
+   {
+    "slide": "physics-p049",
+    "words": 6,
+    "tags": "clear_actions;large_qr;whitespace"
+   }
+  ],
+  "bad/text": [
+   {
+    "slide": "physics-p033",
+    "words": 35,
+    "tags": "unfinished_editing_note;no_audience_message"
+   },
+   {
+    "slide": "hodges-p009",
+    "words": null,
+    "tags": "interface_screenshot;small_text"
+   },
+   {
+    "slide": "llm-planning-p002",
+    "words": 86,
+    "tags": "dense_outline;small_text;competing_elements"
+   },
+   {
+    "slide": "alignment-p151",
+    "words": 136,
+    "tags": "text_wall;color_overuse"
+   }
+  ],
+  "bad/closing": [
+   {
+    "slide": "hodges-p026",
+    "words": null,
+    "tags": "low_contrast;busy_background;competing_elements"
+   }
+  ],
+  "good/section": [
+   {
+    "slide": "llm-planning-p013",
+    "words": 4,
+    "tags": "one_message;whitespace"
+   }
+  ],
+  "good/table": [
+   {
+    "slide": "alignment-p096",
+    "words": 28,
+    "tags": "full_width_table;grouping;readable_formulas"
+   }
+  ]
+ },
+ "morph_templates": {
+  "PELDA.pptx": {
+   "slides": 2,
+   "morph_durations_ms": [
+    2000
+   ],
+   "options": [
+    "byObject"
+   ],
+   "objects_median": 6.5,
+   "objects_max": 8,
+   "bang_names": 0
+  },
+  "Bold Text and Color Morph Product Launch Presentation.pptx": {
+   "slides": 17,
+   "morph_durations_ms": [
+    2000
+   ],
+   "options": [
+    "byObject"
+   ],
+   "objects_median": 11,
+   "objects_max": 76,
+   "bang_names": 0
+  }
+ },
+ "research_words_median_range": [
+  35.0,
+  69.5
+ ]
+}

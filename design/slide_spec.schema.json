@@ -1,0 +1,381 @@
+{
+  "$defs": {
+    "Chart": {
+      "properties": {
+        "kind": {
+          "default": "bar",
+          "enum": [
+            "bar",
+            "line",
+            "scatter"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "x_labels": {
+          "items": {
+            "type": "string"
+          },
+          "title": "X Labels",
+          "type": "array"
+        },
+        "series": {
+          "items": {
+            "$ref": "#/$defs/Series"
+          },
+          "title": "Series",
+          "type": "array"
+        },
+        "claim": {
+          "description": "one sentence: the claim this chart makes",
+          "title": "Claim",
+          "type": "string"
+        },
+        "y_label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y Label"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        }
+      },
+      "required": [
+        "x_labels",
+        "series",
+        "claim"
+      ],
+      "title": "Chart",
+      "type": "object"
+    },
+    "Figure": {
+      "properties": {
+        "path": {
+          "description": "PNG cropped from the paper PDF: absolute path, or relative to run_dir",
+          "title": "Path",
+          "type": "string"
+        },
+        "caption": {
+          "title": "Caption",
+          "type": "string"
+        },
+        "meaning": {
+          "description": "one sentence: what this figure explains on this slide",
+          "title": "Meaning",
+          "type": "string"
+        },
+        "source": {
+          "description": "e.g. 'Fig. 3, Author et al. 2026'",
+          "title": "Source",
+          "type": "string"
+        },
+        "focus": {
+          "items": {
+            "$ref": "#/$defs/FocusRegion"
+          },
+          "title": "Focus",
+          "type": "array"
+        }
+      },
+      "required": [
+        "path",
+        "caption",
+        "meaning",
+        "source"
+      ],
+      "title": "Figure",
+      "type": "object"
+    },
+    "FocusRegion": {
+      "description": "A specific part of a figure that the slide text refers to.",
+      "properties": {
+        "bbox": {
+          "description": "[x0, y0, x1, y1] normalised to 0..1, origin top-left of the image",
+          "maxItems": 4,
+          "minItems": 4,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Bbox",
+          "type": "array"
+        },
+        "label": {
+          "description": "short name, e.g. 'left panel', 'red curve'",
+          "title": "Label",
+          "type": "string"
+        },
+        "description": {
+          "description": "what is there and why the slide points at it",
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "bbox",
+        "label",
+        "description"
+      ],
+      "title": "FocusRegion",
+      "type": "object"
+    },
+    "Paper": {
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "authors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Authors",
+          "type": "array"
+        },
+        "venue": {
+          "description": "e.g. 'ICLR 2026 (Oral)'",
+          "title": "Venue",
+          "type": "string"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Year"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "required": [
+        "title",
+        "authors",
+        "venue"
+      ],
+      "title": "Paper",
+      "type": "object"
+    },
+    "Section": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title"
+      ],
+      "title": "Section",
+      "type": "object"
+    },
+    "Series": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "values": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Values",
+          "type": "array"
+        },
+        "role": {
+          "enum": [
+            "ours",
+            "baseline"
+          ],
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "values",
+        "role"
+      ],
+      "title": "Series",
+      "type": "object"
+    },
+    "Slide": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "section_id": {
+          "title": "Section Id",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/SlideType"
+        },
+        "title": {
+          "description": "ideally one full claim sentence",
+          "title": "Title",
+          "type": "string"
+        },
+        "bullets": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Bullets",
+          "type": "array"
+        },
+        "figures": {
+          "items": {
+            "$ref": "#/$defs/Figure"
+          },
+          "title": "Figures",
+          "type": "array"
+        },
+        "charts": {
+          "items": {
+            "$ref": "#/$defs/Chart"
+          },
+          "title": "Charts",
+          "type": "array"
+        },
+        "formula": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "LaTeX inside $...$",
+          "title": "Formula"
+        },
+        "big_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Big Number"
+        },
+        "notes": {
+          "default": "",
+          "description": "speaker notes",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "section_id",
+        "type",
+        "title"
+      ],
+      "title": "Slide",
+      "type": "object"
+    },
+    "SlideType": {
+      "enum": [
+        "title",
+        "content",
+        "figure",
+        "figure_text",
+        "comparison",
+        "big_number",
+        "formula",
+        "section_divider",
+        "closing",
+        "thank_you",
+        "evidence",
+        "credits",
+        "workflow"
+      ],
+      "title": "SlideType",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "paper": {
+      "$ref": "#/$defs/Paper"
+    },
+    "team": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Team",
+      "type": "array"
+    },
+    "sections": {
+      "items": {
+        "$ref": "#/$defs/Section"
+      },
+      "title": "Sections",
+      "type": "array"
+    },
+    "slides": {
+      "items": {
+        "$ref": "#/$defs/Slide"
+      },
+      "title": "Slides",
+      "type": "array"
+    }
+  },
+  "required": [
+    "paper",
+    "team",
+    "sections",
+    "slides"
+  ],
+  "title": "Deck",
+  "type": "object"
+}

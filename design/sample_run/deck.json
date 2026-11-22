@@ -1,0 +1,167 @@
+{
+  "paper": {
+    "title": "Demo Paper Title",
+    "authors": [
+      "Unknown"
+    ],
+    "venue": "ICLR 2026",
+    "year": null,
+    "url": null
+  },
+  "team": [
+    "Alice",
+    "Bob"
+  ],
+  "sections": [
+    {
+      "id": "intro",
+      "title": "Motivation"
+    },
+    {
+      "id": "method",
+      "title": "Method"
+    },
+    {
+      "id": "results",
+      "title": "Results"
+    },
+    {
+      "id": "end",
+      "title": "Takeaways"
+    }
+  ],
+  "slides": [
+    {
+      "id": "s01",
+      "section_id": "intro",
+      "type": "title",
+      "title": "Demo Paper Title",
+      "bullets": [],
+      "figures": [],
+      "charts": [],
+      "formula": null,
+      "big_number": null,
+      "notes": ""
+    },
+    {
+      "id": "s02",
+      "section_id": "intro",
+      "type": "content",
+      "title": "The problem the paper solves.",
+      "bullets": [
+        "Placeholder point 1 for: The problem the paper solves",
+        "Placeholder point 2 for: The problem the paper solves"
+      ],
+      "figures": [],
+      "charts": [],
+      "formula": null,
+      "big_number": null,
+      "notes": ""
+    },
+    {
+      "id": "s03",
+      "section_id": "method",
+      "type": "figure_text",
+      "title": "Core method overview.",
+      "bullets": [
+        "Placeholder point 1 for: Core method overview",
+        "Placeholder point 2 for: Core method overview"
+      ],
+      "figures": [
+        {
+          "path": "figures/fig1.png",
+          "caption": "Figure 1: Overview.",
+          "meaning": "Shows the pipeline described on this slide.",
+          "source": "Fig. 1, Unknown et al.",
+          "focus": [
+            {
+              "bbox": [
+                0.0,
+                0.0,
+                0.5,
+                1.0
+              ],
+              "label": "left half",
+              "description": "The input stage the first bullet refers to."
+            }
+          ]
+        }
+      ],
+      "charts": [],
+      "formula": null,
+      "big_number": null,
+      "notes": ""
+    },
+    {
+      "id": "s04",
+      "section_id": "results",
+      "type": "evidence",
+      "title": "Main result vs baselines.",
+      "bullets": [
+        "Placeholder point 1 for: Main result vs baselines",
+        "Placeholder point 2 for: Main result vs baselines"
+      ],
+      "figures": [],
+      "charts": [
+        {
+          "kind": "bar",
+          "x_labels": [
+            "Task A",
+            "Task B"
+          ],
+          "series": [
+            {
+              "name": "Ours",
+              "values": [
+                71.2,
+                64.0
+              ],
+              "role": "ours"
+            },
+            {
+              "name": "Baseline",
+              "values": [
+                65.3,
+                60.1
+              ],
+              "role": "baseline"
+            }
+          ],
+          "claim": "Placeholder: our method beats the baseline on both tasks.",
+          "y_label": null,
+          "source": null
+        }
+      ],
+      "formula": null,
+      "big_number": null,
+      "notes": ""
+    },
+    {
+      "id": "s05",
+      "section_id": "end",
+      "type": "closing",
+      "title": "Takeaways and limitations.",
+      "bullets": [
+        "Placeholder point 1 for: Takeaways and limitations",
+        "Placeholder point 2 for: Takeaways and limitations"
+      ],
+      "figures": [],
+      "charts": [],
+      "formula": null,
+      "big_number": null,
+      "notes": ""
+    },
+    {
+      "id": "s06",
+      "section_id": "end",
+      "type": "thank_you",
+      "title": "Thank you.",
+      "bullets": [],
+      "figures": [],
+      "charts": [],
+      "formula": null,
+      "big_number": null,
+      "notes": ""
+    }
+  ]
+}

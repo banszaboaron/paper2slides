@@ -1,0 +1,54 @@
+# Role -> model. Swap providers here without touching code.
+# provider: fake | claude_cli | anthropic | google_genai | ollama | openai (any OpenAI-compatible endpoint: OpenRouter, vLLM, LM Studio...) | groq
+# `fake` returns deterministic stub output so the whole graph runs offline (smoke tests, UI dev).
+#
+# API keys come from environment / .env:
+#   ANTHROPIC_API_KEY, GOOGLE_API_KEY, OPENAI_API_KEY (+ base_url for OpenRouter), GROQ_API_KEY
+# Check each provider's current free-tier limits before choosing.
+
+default:
+  provider: fake
+  model: fake
+
+roles:
+  outline:   # reads the paper, proposes sections + slide plan
+    provider: fake
+    model: fake
+    temperature: 0.2
+  content:   # writes per-slide spec
+    provider: fake
+    model: fake
+    temperature: 0.3
+  judge:     # VLM: needs image input (used by design side)
+    provider: fake
+    model: fake
+  checker:   # reviews outline / slides / script against the documents and the kick-off (LLM checker)
+    provider: fake
+    model: fake
+    temperature: 0.0
+  script:    # presenter script: who says what on which slide, timed to the talk length
+    provider: fake
+    model: fake
+    temperature: 0.4
+
+# Examples (uncomment / copy into a role):
+#   provider: anthropic         # Claude API through the anthropic SDK (key: ANTHROPIC_API_KEY)
+#   model: claude-sonnet-5-5
+#   max_tokens: 16000           # needed: the default is too small for a whole outline / script
+#
+#   provider: claude_cli        # your logged-in Claude Code CLI (Pro/Max subscription, no API key)
+#   model: sonnet               # alias: sonnet | opus | haiku, or a full model id
+#   timeout_s: 600
+#
+
+#   provider: google_genai
+#   model: gemini-2.5-flash
+#
+#   provider: ollama
+#   model: qwen2.5vl:7b
+#   base_url: http://localhost:11434   # or a lab machine: http://<lab-host>:11434
+#
+#   provider: openai
+#   model: meta-llama/llama-3.3-70b-instruct:free
+#   base_url: https://openrouter.ai/api/v1
+#   api_key_env: OPENROUTER_API_KEY
